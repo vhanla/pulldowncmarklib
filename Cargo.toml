@@ -1,0 +1,11 @@
+[package]
+name = "markdownlib"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+pulldown-cmark = "*"
+libc = "*"
+
+[lib]
+crate-type = ["cdylib"]
