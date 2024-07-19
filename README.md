@@ -4,8 +4,16 @@ This is a simple DLL library to use **pulldown-cmark** from any win32 applicatio
 
 # How to build
 
-- 64bits: `cargo build --target=x86_64-pc-windows-msvc --release`
-- 32bits: `cargo build --target=i686-pc-windows-msvc --release`
+- 64bits: 
+```
+rustup default stable-x86_64-pc-windows-msvc
+cargo build --target=x86_64-pc-windows-msvc --release
+```
+- 32bits: 
+```
+rustup default stable-i686-pc-windows-msvc
+cargo build --target=i686-pc-windows-msvc --release
+```
 
 
 For instance the **pascal** directory contains a library to use with Delphi.
