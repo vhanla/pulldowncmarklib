@@ -32,7 +32,6 @@ type
   procedure free_string(ptr: PAnsiChar); cdecl;
     external PULLDOWNCMARKDLL;
 
-  function AnsiStringToMarkdown(const Input: PAnsiChar; const Options: TPulldownCMarkOptions): PAnsiChar; cdecl;
   function StringToMarkdown(const Input: string; const Options: TPulldownCMarkOptions): string;
 implementation
 
@@ -63,17 +62,15 @@ begin
       Result := Result or OptionsFlags[Option];
 end;
 
-function AnsiStringToMarkdown(const Input: PAnsiChar; const Options: TPulldownCMarkOptions): PAnsiChar; cdecl;
-begin
-  Result := strtomarkdown(Input, TPulldownCMarkHelper.OptionsToU32(Options));
-end;
-
 function StringToMarkdown(const Input: string; const Options: TPulldownCMarkOptions): string;
 var
-  inputCStr: PAnsiChar;
+  inputCStr, outputCStr: PAnsiChar;
 begin
   inputCStr := PAnsiChar(UTF8Encode(Input));
-  Result := WideString(UTF8Decode(AnsiStringToMarkdown(inputCStr, Options)));
+    // Call Rust function
+  outputCStr := strtomarkdown(inputCStr, TPulldownCMarkHelper.OptionsToU32(Options));
+  Result := WideString(UTF8Decode(outputCStr));
+  free_string(outputCStr);
 end;
 
 end.
