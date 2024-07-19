@@ -11,8 +11,19 @@ For instance the **pascal** directory contains a library to use with Delphi.
 
 ```pascal
 uses PulldownCMark;
+...
 
-UTF8Decode(StringToMarkdown(PAnsiChar('Here goes a UTF8 encoded text'), [])); 
+Memo2.Text := StringToMarkdown(Memo1.Text, [ moEnableTables,
+    moEnableFootnotes,
+    moEnableStrikethrough,
+    moEnableTasklists,
+    moEnableSmartPunctuation,
+    moEnableHeadingAttributes,
+    moEnableYamlStyleMetadataBlocks,
+    moEnablePlusesDelimitedMetadataBlocks,
+    moEnableOldFootnotes,
+    moEnableMath,
+    moEnableGFM])); 
 ``` 
 ## Exports to use on any other program.
 The DLL exports two functions, the free_string must be called after to release the allocated memory for the result.
