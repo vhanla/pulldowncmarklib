@@ -2,6 +2,7 @@ unit PulldownCMark;
 
 interface
 
+
 { Pulldown-Mark library}
 const
   PULLDOWNCMARKDLL = 'pulldowncmarklib.dll';
@@ -31,7 +32,8 @@ type
   procedure free_string(ptr: PAnsiChar); cdecl;
     external PULLDOWNCMARKDLL;
 
-  function StringToMarkdown(const Input: PAnsiChar; const Options: TPulldownCMarkOptions): PAnsiChar; cdecl;
+  function AnsiStringToMarkdown(const Input: PAnsiChar; const Options: TPulldownCMarkOptions): PAnsiChar; cdecl;
+  function StringToMarkdown(const Input: string; const Options: TPulldownCMarkOptions): string;
 implementation
 
 { TPulldownMarkHelper }
@@ -61,9 +63,17 @@ begin
       Result := Result or OptionsFlags[Option];
 end;
 
-function StringToMarkdown(const Input: PAnsiChar; const Options: TPulldownCMarkOptions): PAnsiChar; cdecl;
+function AnsiStringToMarkdown(const Input: PAnsiChar; const Options: TPulldownCMarkOptions): PAnsiChar; cdecl;
 begin
   Result := strtomarkdown(Input, TPulldownCMarkHelper.OptionsToU32(Options));
+end;
+
+function StringToMarkdown(const Input: string; const Options: TPulldownCMarkOptions): string;
+var
+  inputCStr: PAnsiChar;
+begin
+  inputCStr := PAnsiChar(UTF8Encode(Input));
+  Result := WideString(UTF8Decode(AnsiStringToMarkdown(inputCStr, Options)));
 end;
 
 end.
