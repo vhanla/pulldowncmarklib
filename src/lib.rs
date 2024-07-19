@@ -1,8 +1,6 @@
 use std::ffi::{CString, CStr};
 use std::os::raw::c_char;
-use std::alloc::{alloc, dealloc, Layout};
-use std::ptr;
-use pulldown_cmark::{Event, Parser, Options};
+use pulldown_cmark::{Options};
 
 #[no_mangle]
 pub extern "C" fn strtomarkdown(input_ptr: *const c_char, options_flags: u32) -> *mut c_char {
@@ -10,7 +8,7 @@ pub extern "C" fn strtomarkdown(input_ptr: *const c_char, options_flags: u32) ->
 
     let input_str = std::str::from_utf8(input_cstr.to_bytes()).unwrap();
     let mut html_output = String::new();
-    let mut options = Options::from_bits(options_flags).unwrap_or(Options::empty());
+    let options = Options::from_bits(options_flags).unwrap_or(Options::empty());
     //options.insert(Options::ENABLE_TABLES);
     //options.insert(Options::ENABLE_FOOTNOTES);
     //options.insert(Options::ENABLE_STRIKETHROUGH);
